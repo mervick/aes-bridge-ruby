@@ -17,7 +17,8 @@ module AesBridge
     self.encrypt_gcm(plaintext, passphrase)
   end
 
-  # Decrypts a base64-encoded string encrypted with AES-GCM and verifies its integrity using an authentication tag.
+  # Decrypts a base64-encoded string encrypted with AES-GCM and verifies its integrity
+  # using an authentication tag.
   #
   # @param data [String] The base64-encoded ciphertext to decrypt.
   # @param passphrase [String] The passphrase from which to derive the encryption and HMAC keys.

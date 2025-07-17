@@ -6,7 +6,7 @@ require_relative 'common'
 
 
 module AesBridge
-  def self.derive_key(passphrase, salt)
+  def self.derive_key_gcm(passphrase, salt)
     OpenSSL::KDF.pbkdf2_hmac(
       passphrase,
       salt: salt,
@@ -26,7 +26,7 @@ module AesBridge
     plaintext = to_bytes(plaintext)
     salt = generate_random(16)
     nonce = generate_random(12)
-    key = derive_key(passphrase, salt)
+    key = derive_key_gcm(passphrase, salt)
 
     cipher = OpenSSL::Cipher.new('aes-256-gcm')
     cipher.encrypt
@@ -60,7 +60,7 @@ module AesBridge
 
     cipher = OpenSSL::Cipher.new('aes-256-gcm')
     cipher.decrypt
-    cipher.key = derive_key(passphrase, salt)
+    cipher.key = derive_key_gcm(passphrase, salt)
     cipher.iv = nonce
     cipher.auth_tag = tag
 
@@ -80,7 +80,8 @@ module AesBridge
     Base64.strict_encode64(encrypt_gcm_bin(data, passphrase))
   end
 
-  # Decrypts a base64-encoded string encrypted with AES-GCM and verifies its integrity using an authentication tag.
+  # Decrypts a base64-encoded string encrypted with AES-GCM and verifies its integrity
+  # using an authentication tag.
   #
   # @param data [String] The base64-encoded ciphertext to decrypt.
   # @param passphrase [String] The passphrase from which to derive the encryption and HMAC keys.

@@ -16,7 +16,7 @@ module AesBridge
   # @return [String] The encrypted data, encoded in base64 format, with a "Salted__" prefix.
   def self.encrypt_legacy(raw, passphrase)
     salt = OpenSSL::Random.random_bytes(8)
-    key, iv = derive_key_and_iv(passphrase, salt)
+    key, iv = derive_key_iv_legacy(passphrase, salt)
 
     cipher = OpenSSL::Cipher.new('AES-256-CBC')
     cipher.encrypt
@@ -45,7 +45,7 @@ module AesBridge
     raise 'Invalid OpenSSL header' unless data.start_with?('Salted__')
 
     salt = data[8, 8]
-    key, iv = derive_key_and_iv(passphrase, salt)
+    key, iv = derive_key_iv_legacy(passphrase, salt)
 
     cipher = OpenSSL::Cipher.new('AES-256-CBC')
     cipher.decrypt
@@ -60,12 +60,13 @@ module AesBridge
     cipher.update(ciphertext) + cipher.final
   end
 
-  # Derives an AES key and initialization vector (IV) from a passphrase and salt using an iterative hashing process.
+  # Derives an AES key and initialization vector (IV) from a passphrase and salt using
+  # an iterative hashing process.
   #
   # @param passphrase [String] The passphrase used for key derivation.
   # @param salt [String] The salt value to add randomness to the key derivation process.
   # @return [Array<String>] An array containing the derived AES key and IV.
-  def self.derive_key_and_iv(passphrase, salt)
+  def self.derive_key_iv_legacy(passphrase, salt)
     d = +''
     prev = +''
     while d.bytesize < KEY_LEN + IV_LEN

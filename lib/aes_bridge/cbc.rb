@@ -12,7 +12,7 @@ module AesBridge
   # @param passphrase [String] The passphrase from which to derive the keys.
   # @param salt [String] The salt value to use in the key derivation process.
   # @return [Array<String>] An array containing the derived AES key and HMAC key.
-  def self.derive_keys(passphrase, salt)
+  def self.derive_keys_cbc(passphrase, salt)
     key_material = OpenSSL::KDF.pbkdf2_hmac(
       passphrase,
       salt: salt,
@@ -26,15 +26,15 @@ module AesBridge
   # Encrypts the given plaintext using AES-CBC-256 with a randomly generated IV,
   # and HMAC-SHA-256 for integrity verification.
   #
-  # @param plaintext [String, #to_bytes] The plaintext to encrypt.
-  # @param passphrase [String, #to_bytes] The passphrase from which to derive the encryption and HMAC keys.
+  # @param plaintext [String] The plaintext to encrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption and HMAC keys.
   # @return [String] The encrypted binary data.
   def self.encrypt_cbc_bin(plaintext, passphrase)
     plaintext = self.to_bytes(plaintext)
     passphrase = self.to_bytes(passphrase)
     salt = self.generate_random(16)
     iv = self.generate_random(16)
-    aes_key, hmac_key = self.derive_keys(passphrase, salt)
+    aes_key, hmac_key = self.derive_keys_cbc(passphrase, salt)
 
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
     cipher.encrypt
@@ -55,8 +55,8 @@ module AesBridge
   # Decrypts the given ciphertext using AES-CBC-256 and HMAC-SHA-256 for
   # integrity verification.
   #
-  # @param data [String, #to_bytes] The ciphertext to decrypt.
-  # @param passphrase [String, #to_bytes] The passphrase from which to derive the
+  # @param data [String] The ciphertext to decrypt.
+  # @param passphrase [String] The passphrase from which to derive the
   #   encryption and HMAC keys.
   # @return [String] The decrypted plaintext.
   def self.decrypt_cbc_bin(data, passphrase)
@@ -68,7 +68,7 @@ module AesBridge
     tag = data[-32, 32]
     ciphertext = data[32...-32]
 
-    aes_key, hmac_key = self.derive_keys(passphrase, salt)
+    aes_key, hmac_key = self.derive_keys_cbc(passphrase, salt)
 
     expected_tag = OpenSSL::HMAC.digest('sha256', hmac_key, iv + ciphertext)
     raise 'HMAC verification failed' unless expected_tag == tag
