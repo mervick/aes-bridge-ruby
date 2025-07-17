@@ -30,7 +30,7 @@ jobs:
     name: Deploy to RubyGems
     runs-on: ubuntu-latest
     needs: build
-    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main' # Only deploy if build succeeds, on push to main branch
+    if: success()
 
     environment:
       name: RubyGems
