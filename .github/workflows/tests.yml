@@ -1,0 +1,29 @@
+name: Ruby Tests
+
+on:
+  push:
+    branches:
+      - main # Run on pushes to the main branch
+  pull_request:
+    branches:
+      - main # Run on pull requests targeting the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.x'
+        bundler-cache: true
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Run tests with Rake
+      run: rake test
