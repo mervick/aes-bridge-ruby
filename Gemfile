@@ -2,6 +2,12 @@
 
 source "https://rubygems.org"
 
+group :development, :test do
+  gem 'minitest'
+  gem 'json'
+  gem 'unicode_utils'
+end
+
 # Specify your gem's dependencies in aes_bridge.gemspec
 gemspec
 
