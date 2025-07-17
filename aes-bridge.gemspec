@@ -31,4 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "openssl"
   spec.add_dependency "mutex_m"
+  spec.add_dependency "minitest"
+  spec.add_dependency "json"
+  spec.add_dependency "unicode_utils"
 end
