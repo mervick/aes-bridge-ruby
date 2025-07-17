@@ -8,6 +8,8 @@ group :development, :test do
   gem 'unicode_utils'
 end
 
+gem "base64"
+
 # Specify your gem's dependencies in aes_bridge.gemspec
 gemspec
 
