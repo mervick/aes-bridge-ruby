@@ -1,0 +1,98 @@
+
+module AesBridge
+  VERSION: String
+
+  # Encrypts a string using AES-GCM.
+  #
+  # @param data [String] The plaintext to encrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption key.
+  # @return [String] The encrypted, base64-encoded string.
+  def self.encrypt: (String plaintext, String passphrase) -> String
+
+  # Decrypts a base64-encoded string encrypted with AES-GCM and verifies its integrity
+  # using an authentication tag.
+  #
+  # @param data [String] The base64-encoded ciphertext to decrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption and HMAC keys.
+  # @return [String] The decrypted plaintext.
+  def self.decrypt: (String data, String passphrase) -> String
+
+  # Encrypts a string using AES-GCM.
+  #
+  # @param data [String] The plaintext to encrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption key.
+  # @return [String] The encrypted, base64-encoded string.
+  def self.encrypt_gcm: (String plaintext, String passphrase) -> String
+
+  # Decrypts a base64-encoded string encrypted with AES-GCM and verifies its integrity
+  # using an authentication tag.
+  #
+  # @param data [String] The base64-encoded ciphertext to decrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption and HMAC keys.
+  # @return [String] The decrypted plaintext.
+  def self.decrypt_gcm: (String data, String passphrase) -> String
+
+  # Encrypts the given plaintext using AES-GCM.
+  #
+  # @param plaintext [String] The plaintext to encrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption key.
+  # @return [String] The encrypted binary data.
+  def self.encrypt_gcm_bin: (String plaintext, String passphrase) -> String
+
+  # Decrypts a binary string encrypted with AES-GCM.
+  #
+  # @param data [String] The ciphertext to decrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption key.
+  # @return [String] The decrypted plaintext.
+  def self.decrypt_gcm_bin: (String data, String passphrase) -> String
+
+  # Encrypts the given plaintext using AES-CBC-256 with a randomly generated IV,
+  # and HMAC-SHA-256 for integrity verification.
+  #
+  # @param plaintext [String] The plaintext to encrypt.
+  # @param passphrase [String] The passphrase from which to derive the
+  #   encryption and HMAC keys.
+  # @return [String] The encrypted, base64-encoded string.
+  def self.encrypt_cbc: (String data, String passphrase) -> String
+
+  # Decrypts a base64-encoded string encrypted with AES-CBC-256 and verifies its
+  # integrity using HMAC-SHA-256.
+  #
+  # @param data [String] The base64-encoded ciphertext to decrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption and HMAC keys.
+  # @return [String] The decrypted plaintext.
+  def self.decrypt_cbc: (String data, String passphrase) -> String
+
+  # Encrypts the given plaintext using AES-CBC-256 with a randomly generated IV,
+  # and HMAC-SHA-256 for integrity verification.
+  #
+  # @param plaintext [String] The plaintext to encrypt.
+  # @param passphrase [String] The passphrase from which to derive the encryption and HMAC keys.
+  # @return [String] The encrypted binary data.
+  def self.encrypt_cbc_bin: (String plaintext, String passphrase) -> String
+
+  # Decrypts the given ciphertext using AES-CBC-256 and HMAC-SHA-256 for
+  # integrity verification.
+  #
+  # @param data [String] The ciphertext to decrypt.
+  # @param passphrase [String] The passphrase from which to derive the
+  #   encryption and HMAC keys.
+  # @return [String] The decrypted plaintext.
+  def self.decrypt_cbc_bin: (String data, String passphrase) -> String
+
+  # Encrypts the given plaintext using the legacy AES Everywhere format with AES-256-CBC.
+  # A random salt is generated and used along with the passphrase to derive the encryption key and IV.
+  #
+  # @param raw [String] The plaintext to encrypt.
+  # @param passphrase [String] The passphrase used for key derivation.
+  # @return [String] The encrypted data, encoded in base64 format, with a "Salted__" prefix.
+  def self.encrypt_legacy: (String raw, String passphrase) -> String
+
+  # Decrypts the given ciphertext using the legacy AES Everywhere format with AES-256-CBC.
+  # The ciphertext must have a "Salted__" prefix.
+  #
+  # @param enc [String] The base64-encoded ciphertext to decrypt.
+  # @param passphrase [String] The passphrase used for key derivation.
+  # @return [String] The decrypted plaintext.
+  def self.decrypt_legacy: (String enc, String passphrase) -> String
+end
