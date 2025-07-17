@@ -26,4 +26,4 @@ jobs:
       run: bundle install
 
     - name: Run tests with Rake
-      run: rake test
+      run: bundle exec rake test
