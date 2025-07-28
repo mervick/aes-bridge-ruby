@@ -1,7 +1,7 @@
 # AesBridge Ruby
 
-![Gem Version](https://img.shields.io/gem/v/aes-bridge.svg)
-![CI Status](https://github.com/mervick/aes-bridge-ruby/actions/workflows/tests.yml/badge.svg)
+[![Gem Version](https://img.shields.io/gem/v/aes-bridge.svg)](https://rubygems.org/gems/aes-bridge/versions/2.0.0)
+[![CI Status](https://github.com/mervick/aes-bridge-ruby/actions/workflows/tests.yml/badge.svg)](https://github.com/mervick/aes-bridge-ruby/actions/workflows/tests.yml)
 
 **AesBridge** is a modern, secure, and cross-language **AES** encryption library. It offers a unified interface for encrypting and decrypting data across multiple programming languages. Supports **GCM**, **CBC**, and **legacy AES Everywhere** modes.
 
